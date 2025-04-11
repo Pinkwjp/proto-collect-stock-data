@@ -8,6 +8,7 @@ yfinance = {extras = ["nospam"], version = "*"}
 pandas = "*"
 jupyterlab = "*"
 ipykernel = "*"
+lxml = "*"
 
 [dev-packages]
 
