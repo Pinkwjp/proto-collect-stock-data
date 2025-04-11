@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 yfinance = {extras = ["nospam"], version = "*"}
 pandas = "*"
+jupyterlab = "*"
 
 [dev-packages]
 
