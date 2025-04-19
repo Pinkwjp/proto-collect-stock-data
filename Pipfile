@@ -9,6 +9,7 @@ pandas = "*"
 jupyterlab = "*"
 ipykernel = "*"
 lxml = "*"
+sqlalchemy = "*"
 
 [dev-packages]
 
