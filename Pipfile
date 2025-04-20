@@ -10,7 +10,7 @@ jupyterlab = "*"
 ipykernel = "*"
 lxml = "*"
 sqlalchemy = "*"
-psycopg = {extras = ["binary"], version = "*"}
+psycopg = {extras = ["pool"], version = "*"}
 
 [dev-packages]
 
