@@ -20,7 +20,7 @@ def get_db_engine() -> Engine:
     url_object = URL.create(
         "postgresql+psycopg",
         username=getpass.getuser(),      # return current system user
-        password=getpass.getpass(prompt='Please enter Postgresql password for current system user:   '),      
+        password=getpass.getpass(prompt='Please enter Postgresql password for current system user.'),      
         host="localhost",
         database="finance",
     )
