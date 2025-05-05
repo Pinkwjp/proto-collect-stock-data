@@ -1,8 +1,12 @@
 
+import getpass
 from typing import List
 from pathlib import Path
 
 import pandas as pd 
+from sqlalchemy import Engine
+from sqlalchemy import URL
+from sqlalchemy import create_engine
 
 
 
@@ -12,4 +16,12 @@ def sp500_symbols() -> List[str]:
     return pd.read_csv(csv_file)['Symbol'].map(str).to_list()
 
 
-
+def get_db_engine() -> Engine:
+    url_object = URL.create(
+        "postgresql+psycopg",
+        username=getpass.getuser(),      # return current system user
+        password=getpass.getpass(),      # ask for password from input
+        host="localhost",
+        database="finance",
+    )
+    return create_engine(url_object) 
