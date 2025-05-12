@@ -11,6 +11,7 @@ lxml = "*"
 sqlalchemy = "*"
 psycopg = {extras = ["pool"], version = "*"}
 yfinance = "~=0.2.54"
+html5lib = "*"
 
 [dev-packages]
 
