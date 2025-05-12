@@ -48,7 +48,7 @@ def create_tables():
 
 
 if __name__ == '__main__':
-    # python -m create_tables
+    # python -m src.create_tables
 
     # create_tables()  
     pass 
