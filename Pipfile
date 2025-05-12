@@ -4,13 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-yfinance = {extras = ["nospam"], version = "*"}
 pandas = "*"
 jupyterlab = "*"
 ipykernel = "*"
 lxml = "*"
 sqlalchemy = "*"
 psycopg = {extras = ["pool"], version = "*"}
+yfinance = "~=0.2.54"
 
 [dev-packages]
 
