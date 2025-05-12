@@ -1,13 +1,14 @@
 
 from sqlalchemy.orm import declarative_base
 from sqlalchemy import UniqueConstraint, Column, Integer, String, Date, Numeric, BigInteger
-
+from sqlalchemy import text
 
 from importlib import reload
 from src import utils
 reload(utils)
 
 from src.utils import get_db_engine
+
 
 
 Base = declarative_base()
@@ -46,11 +47,25 @@ def create_tables():
     Base.metadata.create_all(engine)
 
 
+def create_view_latest_trade_date():
+    engine = get_db_engine()
+    with engine.connect() as conn:
+        conn.execute(text("""
+            CREATE OR REPLACE VIEW view_latest_trade_date AS
+            SELECT ticker, MAX(trade_date) AS latest_trade_date
+            FROM stock_prices
+            GROUP BY ticker;
+        """))
+        conn.commit() 
+
+
 
 if __name__ == '__main__':
     # python -m src.create_tables
 
     # create_tables()  
+    # create_view_latest_trade_date()
+
     pass 
 
 
