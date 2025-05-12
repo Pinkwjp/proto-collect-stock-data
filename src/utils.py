@@ -25,3 +25,4 @@ def get_db_engine() -> Engine:
         database="finance",
     )
     return create_engine(url_object) 
+
