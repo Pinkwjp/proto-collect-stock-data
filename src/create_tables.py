@@ -49,10 +49,10 @@ class SP600SmallCap(Base):
     
     id = Column(Integer, primary_key=True)
     ticker = Column(String(10), nullable=False)
-    company_name = Column(String(50), nullable=False)
+    company_name = Column(String(100), nullable=False)
     sector = Column(String(100), nullable=False)
     sub_industry = Column(String(100), nullable=False)
-    headquarters = Column(String(50), nullable=False)
+    headquarters = Column(String(100), nullable=False)
     cik = Column(Integer, nullable=False)
 
 
@@ -60,6 +60,12 @@ class SP600SmallCap(Base):
 def create_tables():
     engine = get_db_engine()
     Base.metadata.create_all(engine)
+
+
+def create_one_table(table):
+    assert table
+    engine = get_db_engine()
+    Base.metadata.create_all(engine, tables=[table.__table__])
 
 
 def create_view_latest_trade_date():
@@ -80,7 +86,7 @@ if __name__ == '__main__':
 
     # create_tables()  
     # create_view_latest_trade_date()
-
+    create_one_table(SP600SmallCap)
     pass 
 
 
