@@ -56,6 +56,18 @@ class SP600SmallCap(Base):
     cik = Column(Integer, nullable=False)
 
 
+class SP400MidCap(Base):
+    __tablename__ = 'sp400_mid_cap'
+    __table_args__ = (UniqueConstraint('ticker', 'company_name'),)
+    
+    id = Column(Integer, primary_key=True)
+    ticker = Column(String(10), nullable=False)
+    company_name = Column(String(100), nullable=False)
+    sector = Column(String(100), nullable=False)
+    sub_industry = Column(String(100), nullable=False)
+    headquarters = Column(String(100), nullable=False)
+
+
 
 def create_tables():
     engine = get_db_engine()
