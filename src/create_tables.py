@@ -42,6 +42,21 @@ class SP500(Base):
     year_founded = Column(Integer, nullable=False)
 
 
+
+class SP600SmallCap(Base):
+    __tablename__ = 'sp600_small_cap'
+    __table_args__ = (UniqueConstraint('ticker', 'company_name'),)
+    
+    id = Column(Integer, primary_key=True)
+    ticker = Column(String(10), nullable=False)
+    company_name = Column(String(50), nullable=False)
+    sector = Column(String(100), nullable=False)
+    sub_industry = Column(String(100), nullable=False)
+    headquarters = Column(String(50), nullable=False)
+    cik = Column(Integer, nullable=False)
+
+
+
 def create_tables():
     engine = get_db_engine()
     Base.metadata.create_all(engine)
