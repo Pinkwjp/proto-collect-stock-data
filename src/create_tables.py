@@ -98,7 +98,9 @@ if __name__ == '__main__':
 
     # create_tables()  
     # create_view_latest_trade_date()
-    create_one_table(SP600SmallCap)
+    # create_one_table(SP600SmallCap)
+    # create_one_table(SP400MidCap)
+    
     pass 
 
 
