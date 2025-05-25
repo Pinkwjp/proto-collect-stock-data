@@ -77,7 +77,7 @@ class RUSSELL1000(Base):
     company_name = Column(String(100), nullable=False)
     sector = Column(String(100), nullable=False)
     sub_industry = Column(String(100), nullable=False)
-    
+
 
 
 def create_tables():
@@ -111,7 +111,9 @@ if __name__ == '__main__':
     # create_view_latest_trade_date()
     # create_one_table(SP600SmallCap)
     # create_one_table(SP400MidCap)
-    
+    # create_one_table(RUSSELL1000)
+
     pass 
+
 
 
