@@ -104,6 +104,8 @@ def create_view_latest_trade_date():
 
 
 
+
+
 if __name__ == '__main__':
     # python -m src.create_tables
 
