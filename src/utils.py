@@ -20,6 +20,7 @@ def sp500_symbols() -> List[str]:
     return pd.read_csv(csv_file)['Symbol'].map(str).to_list()
 
 
+
 def get_db_engine() -> Engine:
     url_object = URL.create(
         "postgresql+psycopg",
@@ -29,7 +30,6 @@ def get_db_engine() -> Engine:
         database="finance",
     )
     return create_engine(url_object) 
-
 
 
 
