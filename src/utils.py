@@ -32,6 +32,9 @@ def get_db_engine() -> Engine:
     return create_engine(url_object) 
 
 
+def clean_yf_downloaded_df():
+    pass 
+
 
 def download_max(symbols: List[str]) -> pd.DataFrame:
     """download max stock price data for symbols
@@ -73,3 +76,7 @@ def download_max(symbols: List[str]) -> pd.DataFrame:
         df = df.drop(index=df_today.index)
     
     return df
+
+
+def download_from():
+    pass 
