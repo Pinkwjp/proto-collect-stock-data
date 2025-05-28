@@ -56,6 +56,8 @@ def clean_yf_downloaded_df(df_raw: pd.DataFrame) -> pd.DataFrame:
                             'Volume': 'volume'
                             })
     
+    df = df.rename_axis(' ', axis=1) # change column label from 'Price' to ' '
+
     # remove today's stock data, as that could be incomplete if downloaded within trading hour
     if (to_day:= date.today()) == df['trade_date'].max():
         df_today = df[df['trade_date'] == to_day] 
