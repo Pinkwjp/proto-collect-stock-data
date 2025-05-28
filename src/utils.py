@@ -32,24 +32,11 @@ def get_db_engine() -> Engine:
     return create_engine(url_object) 
 
 
-def clean_yf_downloaded_df():
-    pass 
-
-
-def download_max(symbols: List[str]) -> pd.DataFrame:
-    """download max stock price data for symbols
-    
-    start: first ever trade day of each symbol
-    end: the day before today (to aviod in-tradeday incomplete data)
-
-    NOTE: use this func to intially populate a sql table when records of symbols doesn't exist in table
-    """
-    stocks_df_raw = yf.download(tickers=symbols, group_by='Ticker', period='max', rounding=True)
-    assert stocks_df_raw is not None
+def clean_yf_downloaded_df(df_raw: pd.DataFrame) -> pd.DataFrame:
 
     # flatten multil-level columns
     # https://stackoverflow.com/questions/63107594/how-to-deal-with-multi-level-column-names-downloaded-with-yfinance
-    stocks_df = stocks_df_raw.stack(level=0, future_stack=True).rename_axis(['Date', 'Ticker']).reset_index(level=1)
+    stocks_df = df_raw.stack(level=0, future_stack=True).rename_axis(['Date', 'Ticker']).reset_index(level=1)
 
     # lots of null value as all stocks first trading date set to match the oldlest stock's first trading date
     df = stocks_df.dropna()
@@ -70,13 +57,39 @@ def download_max(symbols: List[str]) -> pd.DataFrame:
                             'Volume': 'volume'
                             })
     
-    # remove today's stock data, as that could be incomplete if still within trading hour
+    # remove today's stock data, as that could be incomplete if downloaded within trading hour
     if (to_day:= date.today()) == df['trade_date'].max():
         df_today = df[df['trade_date'] == to_day] 
         df = df.drop(index=df_today.index)
     
+    return df 
+
+
+def download_max(symbols: List[str]) -> pd.DataFrame:
+    """download max stock price data for symbols
+    
+    start: first ever trade day of each symbol
+    end: the day before today (to aviod in-tradeday incomplete data)
+
+    NOTE: use this func to intially populate a sql table when records of symbols doesn't exist in table
+    """
+    stocks_df_raw = yf.download(tickers=symbols, group_by='Ticker', period='max', rounding=True)
+    assert stocks_df_raw is not None
+
+    df = clean_yf_downloaded_df(stocks_df_raw)
     return df
 
 
-def download_from():
-    pass 
+def download_from(symbols: List[str], from_date: str) -> pd.DataFrame:
+    """download stock data from from_date to latest trade date
+    
+    NOTE: use this func to fetch new data for existing symbols in db
+    from_date: YYYY-MM-DD
+    """
+  
+    stocks_df_raw = yf.download(tickers=symbols, group_by='Ticker', start=from_date, end=date.today(), rounding=True)
+    assert stocks_df_raw is not None
+
+    df = clean_yf_downloaded_df(stocks_df_raw)
+    return df 
+
