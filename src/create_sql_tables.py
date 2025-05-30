@@ -27,6 +27,21 @@ class StockPrice(Base):
     volume = Column(BigInteger)             # max volume is more than 9B
 
 
+class TestStockPrice(Base):
+    """use this table for testing data insert and update..."""
+    __tablename__ = 'test_stock_prices'
+    __table_args__ = (UniqueConstraint('ticker', 'trade_date'),)  # tuple
+
+    id = Column(Integer, primary_key=True)
+    ticker = Column(String(10), nullable=False)
+    trade_date = Column(Date, nullable=False)
+    open_price = Column(Numeric(10, 2))
+    high_price = Column(Numeric(10, 2))
+    low_price = Column(Numeric(10, 2))
+    close_price = Column(Numeric(10, 2))
+    volume = Column(BigInteger)             # max volume is more than 9B
+
+
 class SP500(Base):
     __tablename__ = 'sp500'
     __table_args__ = (UniqueConstraint('ticker', 'company_name'),)
@@ -107,14 +122,15 @@ def create_view_latest_trade_date():
 
 
 if __name__ == '__main__':
-    # python -m src.create_tables
-
+    # python -m src.create_sql_tables  
+          
     # create_tables()  
     # create_view_latest_trade_date()
     # create_one_table(SP600SmallCap)
     # create_one_table(SP400MidCap)
     # create_one_table(RUSSELL1000)
-
+    
+    create_one_table(TestStockPrice)
     pass 
 
 
