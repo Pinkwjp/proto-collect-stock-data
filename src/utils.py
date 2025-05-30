@@ -87,7 +87,7 @@ def download_from(symbols: List[str], from_date: str) -> pd.DataFrame:
     NOTE: use this func to fetch new data for existing symbols in db
     from_date: YYYY-MM-DD
     """
-  
+    assert date.fromisoformat(from_date) < date.today()
     stocks_df_raw = yf.download(tickers=symbols, group_by='Ticker', start=from_date, end=date.today(), rounding=True)
     assert stocks_df_raw is not None
 
