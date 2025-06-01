@@ -129,8 +129,8 @@ if __name__ == '__main__':
     # create_one_table(SP600SmallCap)
     # create_one_table(SP400MidCap)
     # create_one_table(RUSSELL1000)
+    # create_one_table(TestStockPrice)
     
-    create_one_table(TestStockPrice)
     pass 
 
 
