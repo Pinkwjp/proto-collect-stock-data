@@ -1,6 +1,6 @@
 
 import getpass
-from typing import List
+from typing import List, Dict, Any
 from pathlib import Path
 from datetime import date
 
@@ -9,6 +9,9 @@ import pandas as pd
 from sqlalchemy import Engine
 from sqlalchemy import URL
 from sqlalchemy import create_engine
+from sqlalchemy.orm import Session
+from sqlalchemy.dialects.postgresql import insert
+
 import yfinance as yf
 
 
@@ -96,3 +99,17 @@ def download_from(symbols: List[str], from_date: str) -> pd.DataFrame:
     df = clean_yf_downloaded_df(stocks_df_raw)
     return df 
 
+
+
+def insert_data(data: List[Dict[str, Any]], table: Any) -> None:
+    """assuming the keys in dicts of data match the columns in table
+    
+    data - records
+    table - postgresql table
+    """
+
+    session = Session(get_db_engine())
+    session.execute(
+        insert(table).on_conflict_do_nothing(), # skip already exist data
+        data) # type: ignore
+    session.commit()
