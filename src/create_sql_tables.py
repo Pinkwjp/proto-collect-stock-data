@@ -1,13 +1,7 @@
 
 from sqlalchemy.orm import declarative_base
 from sqlalchemy import UniqueConstraint, Column, Integer, String, Date, Numeric, BigInteger
-from sqlalchemy import text
-
-from importlib import reload
-from src import utils
-reload(utils)
-
-from src.utils import get_db_engine
+from sqlalchemy import Engine
 
 
 
@@ -95,43 +89,12 @@ class RUSSELL1000(Base):
 
 
 
-def create_tables():
-    engine = get_db_engine()
+def create_tables(engine: Engine):
     Base.metadata.create_all(engine)
 
 
-def create_one_table(table):
+def create_one_table(engine: Engine ,table):
     assert table
-    engine = get_db_engine()
     Base.metadata.create_all(engine, tables=[table.__table__])
-
-
-def create_view_latest_trade_date():
-    engine = get_db_engine()
-    with engine.connect() as conn:
-        conn.execute(text("""
-            CREATE OR REPLACE VIEW view_latest_trade_date AS
-            SELECT ticker, MAX(trade_date) AS latest_trade_date
-            FROM stock_prices
-            GROUP BY ticker;
-        """))
-        conn.commit() 
-
-
-
-
-
-if __name__ == '__main__':
-    # python -m src.create_sql_tables  
-          
-    # create_tables()  
-    # create_view_latest_trade_date()
-    # create_one_table(SP600SmallCap)
-    # create_one_table(SP400MidCap)
-    # create_one_table(RUSSELL1000)
-    # create_one_table(TestStockPrice)
-    
-    pass 
-
 
 
