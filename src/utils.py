@@ -107,9 +107,9 @@ def insert_data(data: List[Dict[str, Any]], table: Any) -> None:
     data - records
     table - postgresql table
     """
-
-    session = Session(get_db_engine())
-    session.execute(
-        insert(table).on_conflict_do_nothing(), # skip already exist data
-        data) # type: ignore
-    session.commit()
+    with Session(get_db_engine()) as session:
+        session.execute(
+            insert(table).on_conflict_do_nothing(), # skip already exist data
+            data) # type: ignore
+        session.commit()
+    
