@@ -5,14 +5,19 @@ from pathlib import Path
 from datetime import date
 
 import pandas as pd 
+from pandas import DataFrame
 
 from sqlalchemy import Engine
 from sqlalchemy import URL
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from sqlalchemy.dialects.postgresql import insert
+from sqlalchemy import select
+from sqlalchemy.sql.functions import max
 
 import yfinance as yf
+
+from src.create_sql_tables import StockPrice
 
 
 
@@ -113,3 +118,15 @@ def insert_data(data: List[Dict[str, Any]], table: Any) -> None:
             data) # type: ignore
         session.commit()
     
+
+
+def get_latest_record_date(engine: Engine) -> DataFrame:
+    """latest record date for all tickers in table stock_prices"""
+    stmt = select(
+        StockPrice.ticker, 
+        max(StockPrice.trade_date).label('latest_record_date')
+        ).group_by(StockPrice.ticker)
+
+    with Session(engine) as session:
+        result =session.execute(statement=stmt)
+        return pd.DataFrame(result.fetchall(), columns=result.keys()) # type:ignore
